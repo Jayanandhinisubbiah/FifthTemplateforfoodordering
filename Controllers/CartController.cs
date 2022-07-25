@@ -93,7 +93,10 @@ namespace FifthTemplateforfoodordering.Controllers
         {
             string UserId = HttpContext.Session.GetString("UserId");
             int b = int.Parse(UserId);
-
+            var c = (from i in fd.Cart
+                     where i.UserId == b
+                     select i.FoodId).SingleOrDefault();
+            var F= fd.Foods.FirstOrDefault(i => i.FoodId == c);
             List<Cart> list = (from i in fd.Cart
                                where i.UserId == b
                                select i).ToList();
@@ -108,9 +111,12 @@ namespace FifthTemplateforfoodordering.Controllers
                 od.OrderId = orderMaster.OrderId;
                 od.FoodId = item.FoodId;
                 od.Qnt = item.Qnt;
-                //orderDetails.Add(od);
+                od.Price = F.price;
+                od.TotalPrice = od.Qnt * od.Price;
+                //orderDetails.Add(od); //S
                 fd.OrderDetails.Add(od);
-
+                fd.SaveChanges();
+                
             }
             //fd.Add(orderDetails);
             orderDetails.AddRange(fd.OrderDetails);
@@ -156,7 +162,18 @@ namespace FifthTemplateforfoodordering.Controllers
                 fd.SaveChanges();
             }
 
-            return RedirectToAction("ViewCart");
+            return RedirectToAction("OrderDetails");
+        }
+        public IActionResult OrderDetails()
+        {
+            return View(fd.OrderDetails.ToList());
+        }
+        public IActionResult Buy()
+        {
+            var A = (from i in fd.OrderDetails
+                     select i.TotalPrice).SingleOrDefault();
+            HttpContext.Session.SetString("TotalPrice", "A");
+            return View();
         }
     }
 }
