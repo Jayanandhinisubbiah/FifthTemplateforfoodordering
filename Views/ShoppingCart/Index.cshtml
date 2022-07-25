@@ -1,0 +1,60 @@
+﻿ @using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<table border="1">
+    <tr>
+        <th>
+            Food Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Qnt
+        </th>
+        <th>
+            Total Price
+        </th>
+    </tr>
+    @foreach(var orders in (List<OrderDetails>)ViewBag.OrderDetails)
+    {
+        <tr>
+            <td>
+                @orders.Food.FoodId
+                  
+            </td>
+            <td>
+                @orders.Food.price
+            </td>
+            <td>
+                @orders.Qnt
+            </td>
+            <td>
+                @orders.TotalPrice
+            </td>
+            <td>
+               @(string.Format("{0:N0}",orders.Food.price*orders.Qnt))
+            </td>
+            <td>
+                <a asp-action="Delete" asp-controller="ShoppingCart" asp-route-Food.FoodId="@orders.Food.FoodId">Delete</a>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="3">TotalPrice:</td>
+        <td>
+            @{
+                List<OrderDetails> temp = (List<OrderDetails>)ViewBag.OrderDetails;
+                var TotalPrice = string.Format("{0:N0}", temp.Sum(x=>x.Qnt*x.Food.price));
+            }
+            @TotalPrice
+        </td>
+    </tr>
+</table>
+
+

@@ -1,0 +1,44 @@
+﻿
+@using Microsoft.AspNetCore.Http
+@model FifthTemplateforfoodordering.Models.Cart
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "MyCart";
+    ViewBag.FoodId = @HttpContextAccessor.HttpContext.Session.GetString("FoodId");
+}
+
+<h1>MyCart</h1>
+
+<h4>Cart</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MyCart">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId" />
+                 @*<label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class ="form-control" asp-items="ViewBag.User_ID" />*@
+              @*  <input asp-for="Suppid" class="form-control" />*@
+            </div>
+            <div class="form-group">
+                <label asp-for="FoodId" class="control-label"></label>
+                <input asp-for="FoodId" class ="form-control" asp-items="ViewBag.FoodId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Qnt" class="control-label"></label>
+                <input asp-for="Qnt" class="form-control" />
+                <span asp-validation-for="Qnt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
