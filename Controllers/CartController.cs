@@ -120,7 +120,9 @@ namespace FifthTemplateforfoodordering.Controllers
             }
             //fd.Add(orderDetails);
             orderDetails.AddRange(fd.OrderDetails);
+            orderMaster.TotalPrice = orderDetails.Sum(i=>i.TotalPrice);
             fd.SaveChanges();
+            
             return RedirectToAction("Emptylist");
          }
         public IActionResult Delete(int? CartId)
@@ -166,14 +168,18 @@ namespace FifthTemplateforfoodordering.Controllers
         }
         public IActionResult OrderDetails()
         {
+           
             return View(fd.OrderDetails.ToList());
         }
-        public IActionResult Buy()
-        {
-            var A = (from i in fd.OrderDetails
-                     select i.TotalPrice).SingleOrDefault();
-            HttpContext.Session.SetString("TotalPrice", "A");
-            return View();
+       public IActionResult Buy()
+        { //   var result=(from i in fd.OrderMasters
+
+            //    select i.TotalPrice).SingleOrDefault();
+            //HttpContext.Session.SetString("TotalPrice", "result");
+            string UserId = HttpContext.Session.GetString("UserId");
+            int b = int.Parse(UserId);
+            var result=fd.OrderMasters.SingleOrDefault(m => m.UserId == b); 
+            return View(result);
         }
     }
 }
