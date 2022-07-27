@@ -177,9 +177,61 @@ namespace FifthTemplateforfoodordering.Controllers
             //    select i.TotalPrice).SingleOrDefault();
             //HttpContext.Session.SetString("TotalPrice", "result");
             string UserId = HttpContext.Session.GetString("UserId");
-            int b = int.Parse(UserId);
-            var result=fd.OrderMasters.SingleOrDefault(m => m.UserId == b); 
+           int b = int.Parse(UserId);
+            var result=fd.OrderMasters.SingleOrDefault(m => m.UserId == b);
+           
             return View(result);
+        }
+        [HttpPost]
+        [ActionName("Payment")]
+        public IActionResult Buy(int OrderId,string Type)
+        {
+            //string UserId = HttpContext.Session.GetString("UserId");
+            //int b = int.Parse(UserId);
+            var result = fd.OrderMasters.SingleOrDefault(m => m.OrderId == OrderId); 
+            result.Type = Type;
+            fd.SaveChanges();
+            if (result.Type == "Online")
+            {
+
+                return RedirectToAction("Online", new { OrderId = OrderId });
+            }
+            else
+            {
+                return RedirectToAction("Offline", new { OrderId = OrderId });
+            }
+        }
+        public IActionResult Online(int OrderId)
+        {  
+            var result = fd.OrderMasters.SingleOrDefault(m => m.OrderId == OrderId);
+            return View(result);
+        }
+        [HttpPost]
+        [ActionName("OnlineType")]
+        public IActionResult Online(int OrderId,OrderMaster O)
+        {
+           
+            var result = fd.OrderMasters.SingleOrDefault(m => m.OrderId == OrderId);
+            result.BankName = O.BankName;
+            result.CardNo = O.CardNo;
+            result.CCV=O.CCV;
+            fd.SaveChanges();
+            return RedirectToAction("ThankYou");
+        }
+        public IActionResult Offline(int OrderId)
+        {
+            var result = fd.OrderMasters.SingleOrDefault(m => m.OrderId == OrderId);
+            return View(result);
+        }
+        [HttpPost]
+        [ActionName("OfflineType")]
+        public IActionResult Offline(int OrderId, OrderMaster O)
+        {
+
+            var result = fd.OrderMasters.SingleOrDefault(m => m.OrderId == OrderId);
+            result = O;
+            fd.SaveChanges();
+            return RedirectToAction("ThankYou");
         }
     }
 }
