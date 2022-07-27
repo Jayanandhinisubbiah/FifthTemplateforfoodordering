@@ -16,6 +16,10 @@ namespace FifthTemplateforfoodordering.Controllers
         {
             return View();
         }
+        //public IActionResult ViewReport()
+        //{
+
+        //}
     }
 
 }

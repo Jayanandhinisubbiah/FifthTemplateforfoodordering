@@ -233,5 +233,9 @@ namespace FifthTemplateforfoodordering.Controllers
             fd.SaveChanges();
             return RedirectToAction("ThankYou");
         }
+        public IActionResult ThankYou()
+        {
+            return View();
+        }
     }
 }
