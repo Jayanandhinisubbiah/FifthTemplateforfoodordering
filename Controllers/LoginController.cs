@@ -46,7 +46,7 @@ namespace FifthTemplateforfoodordering.Controllers
             if (U.Role == "Admin")
             {
                
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "User");
             }
             else if (U.Role == "User")
             {

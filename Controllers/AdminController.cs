@@ -1,6 +1,7 @@
 ﻿using FifthTemplateforfoodordering.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace FifthTemplateforfoodordering.Controllers
 {
@@ -14,7 +15,7 @@ namespace FifthTemplateforfoodordering.Controllers
        
         public IActionResult Index()
         {
-            return View();
+            return View(fd.Users.ToList());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FifthTemplateforfoodordering.Models
+﻿using FifthTemplateforfoodordering.Models;
+
+namespace FifthTemplateforfoodordering.ViewModels
 {
     public class ReportViewModel
     {
