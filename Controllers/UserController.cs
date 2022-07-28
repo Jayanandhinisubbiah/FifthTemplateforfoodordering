@@ -2,6 +2,7 @@
 using FifthTemplateforfoodordering.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 namespace FifthTemplateforfoodordering.Controllers
@@ -13,7 +14,7 @@ namespace FifthTemplateforfoodordering.Controllers
         {
             this.fd = fd;
         }
-       
+
         public IActionResult Index()
         {
             return View(fd.Users.ToList());
@@ -23,9 +24,9 @@ namespace FifthTemplateforfoodordering.Controllers
             var result = (from i in fd.OrderMasters
                           where i.UserId == UserId
                           select i).SingleOrDefault();
-            if(result!= null)
+            if (result != null)
             {
-                var res = (from i in fd.OrderDetails
+                var res = (from i in fd.OrderDetails.Include(x => x.Food)
                            where i.OrderId == result.OrderId
                            select i).ToList();
                 return View(res);
@@ -36,6 +37,20 @@ namespace FifthTemplateforfoodordering.Controllers
             }
 
         }
-    }
+        public IActionResult ViewPayReport(int UserId)
+        {
+            var result = (from i in fd.OrderMasters
+                          where i.UserId == UserId
+                          select i).SingleOrDefault();
+            if (result != null)
+            {
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Index");
 
+            }
+        }
+    }
 }

@@ -10,12 +10,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.UserId)
-            </th>
+            </th>*@
             
             <th>
-                @Html.DisplayNameFor(model => model.FoodId)
+                @*@Html.DisplayNameFor(model => model.FoodId)*@Food Name
+            </th>
+            <th>
+                Price
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Qnt)
@@ -26,12 +29,17 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+           @* <td>
                 @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            
+            </td>*@
+             @*<td>
+                @Html.DisplayFor(modelItem => item.User.FName)
+            </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.FoodId)
+                @Html.DisplayFor(modelItem => item.Food.FoodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Food.price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Qnt)

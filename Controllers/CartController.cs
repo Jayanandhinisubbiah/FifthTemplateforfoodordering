@@ -82,7 +82,7 @@ namespace FifthTemplateforfoodordering.Controllers
         {
             string UserId=HttpContext.Session.GetString("UserId");
             int b=int.Parse(UserId);
-            List<Cart> result=(from i in fd.Cart
+            List<Cart> result=(from i in fd.Cart.Include(x=>x.Food)
                                where i.UserId == b
                                select i).ToList();
             return View(result);
@@ -169,7 +169,7 @@ namespace FifthTemplateforfoodordering.Controllers
         public IActionResult OrderDetails()
         {
            
-            return View(fd.OrderDetails.ToList());
+            return View(fd.OrderDetails.Include(x=>x.Food).ToList());
         }
        public IActionResult Buy()
         { //   var result=(from i in fd.OrderMasters
